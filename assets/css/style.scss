@@ -1,0 +1,26 @@
+---
+---
+
+/* Slightly adjust GitHub pages hacker theme with solarized light colors */
+
+$conifer: #859900;
+$header: #859900;
+
+@import "{{ site.theme }}";
+
+body {
+  background: #fdf6e3;
+  color: #657b83;
+}
+
+header {
+  background: #eee8d5;
+}
+
+header h1 {
+  color: #d33682
+}
+
+img {
+  border: 1pt solid #93a1a1;
+}
