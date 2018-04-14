@@ -18,7 +18,6 @@ institute: Verbundzentrale des GBV (VZG)
 
 * VZG betreibt/koordiniert > 300 Bibliothekskataloge
 * Vor allem Hochschulbibliotheken
-* APIs teilweise auch für externe Kataloge
 
 \vspace{1em}
 
@@ -27,10 +26,10 @@ institute: Verbundzentrale des GBV (VZG)
 
 \vspace{1em}
 
-* Lokale Kataloge einzelner Bibliotheken\
+* Lokale Kataloge einzelner Bibliotheken (OPACs)\
   [`http://uri.gbv.de/database/`*`opac-de-...`*](http://uri.gbv.de/database/opac)
 
-# Entitäten
+# Relevante Entitäten
 
             Beispiel-Identifier
 ----------- -------------------------------------------------
@@ -44,23 +43,23 @@ URI-Präfixe (`http://uri.gbv.de/...`) teilweise optional.
 
 # Schnittstellen und Formate
 
-* [Document Availability Information API (DAIA)](http://purl.org/NET/DAIA)
-    * Bibliothek + Dokument $\Rightarrow$ Verfügbarkeit und Standorte
-    * JSON-Format
+* [Document Availability Information API (DAIA)](http://purl.org/NET/DAIA):\
+  Exemplare, Verfügbarkeiten, Standorte
 
-* [CSL-API]
-    * Bibliothek + CQL-Query $\Rightarrow$ Dokumente
-    * Formatierte Literaturangaben
+* [CSL-API]\:\
+  formatierte Literaturangaben
 
-* [SRU]
-    * Bibliothek + CQL-Query $\Rightarrow$ Dokumente
-    * Metadaten in verschiedenen XML-Formate
+* [SRU]\:\
+  vollständige Metadaten
 
-* Linked Open Data
-    * Entität $\Rightarrow$ Metdaten
-    * RDF/JSON
+* Linked Open Data (RDF)
 
-# DAIA
+# Document Availability Information API (DAIA)
+
+Katalog + Dokument  $\Rightarrow$
+
+* Exemplare mit Verfügbarkeiten und Standorten
+* JSON-Format
 
 Siehe [DAIA-Spezifikation](http://purl.org/NET/DAIA),
 [Projektseite](https://verbundwiki.gbv.de/display/VZG/DAIA) und
@@ -68,38 +67,60 @@ Siehe [DAIA-Spezifikation](http://purl.org/NET/DAIA),
 
 <https://verbundwiki.gbv.de/display/VZG/DAIA>
 
-# CSL
+\small\vfill
 
-Bibliothek + CQL-Query $\Rightarrow$ Formatierte Literaturangaben
+~~~
+https://paia.gbv.de/DE-Wim2/daia
+  ?id=ppn:826687091
+  &format=json
+~~~
 
-Mehrere Zitationsstile zur Auswahl
+# Citation Style Language (CSL) API
 
-Zurückgeliefert werden auch Dokument-Identifier für anschließende Abfrage per DAIA
+Katalog + CQL-Query + Zitierstil $\Rightarrow$
 
-<!--
-Beispiel:
+* Formatierte Literaturangaben
+* JSON-Format
+* auch Dokument-Identifier für anschließende Abfrage per DAIA
 
-http://ws.gbv.de/suggest/csl/?database=opac-de-27&query=pica.per=marx,karl&citationstyle=ieee&language=de
--->
+\small\vfill
 
-<http://ws.gbv.de/csl/>
-
-# SRU
-
-<http://sru.gbv.de/opac-de-27?version=1.1&operation=searchRetrieve&query=pica.per=marx,karl&maximumRecords=10&recordSchema=mods>
-
-<!-- TODO: Suche per Normdaten -->
-
-<http://sru.gbv.de/opac-de-wim2?version=1.1&operation=searchRetrieve&query=pica.ppn=826687091&maximumRecords=10&recordSchema=mods>
-
-....
+~~~
+http://ws.gbv.de/csl/
+  ?database=opac-de-27
+  &query=pica.per=marx,karl
+  &citationstyle=ieee
+  &language=de
+~~~
 
 # CQL-Abfragen
 
-* `pica.ppn=...` (ein bestimmtes Dokument)
-* ...
-* ... <!-- TODO: per GND -->
+------------------------------- -----------------------
+`pica.per=Nachname,Vorname...`  Person
+`pica.ppn=885600452`            bestimmtes Dokument
+`pica.isn=3-9547618-6-6`        ISBN 
+`pica.gnd=4549405-8`            GND-ID (Person, Thema)
+...
+------------------------------- -----------------------
+
+* Suchschlüssel ("IKT") wie im OPAC
 * Mehrere Bedingungen kombinierbar
+
+# SRU
+
+Bibliothek + CQL-Query $\Rightarrow$ Dokumente
+
+* Metadaten in verschiedenen XML-Formate
+
+\small\vfill
+
+~~~
+http://sru.gbv.de/opac-de-27
+ ?version=1.1&operation=searchRetrieve
+ &query=pica.per=marx,karl
+ &maximumRecords=10
+ &recordSchema=mods
+~~~
 
 # MODS-Format
 
@@ -129,10 +150,11 @@ PPN steht in `/record/recordIdentifier[@source="DE-601"]`:
 
 ![<http://uri.gbv.de/organization/isil/DE-Wim2@bst>](de-wim2-bst.png){width=95%}
 
-# Unterstützte Bibliotheken und APIs
+# Bibliotheken und API-Endpunkte
 
 * Alle Hochschulbibliotheken in Thüringen und Sachsen-Anhalt
-* Sachsen leider bislang nur eingeschränkt
+  (Sachsen leider bislang nur eingeschränkt)
+
 * <https://github.com/gbv/cdvost2018>\
   siehe Tabelle (`libraries.csv`)
 
@@ -141,7 +163,8 @@ PPN steht in `/record/recordIdentifier[@source="DE-601"]`:
 * Verknüpfung mit anderen Datensätzen über
 
     * Dokumente (ISIL+PPN)
-    * Autoren und Themen (GND) 
+    * Autoren und Themen (GND)!
+        * Suche u.A. bei <http://lobid.org/gnd>
     * ...
 
 * Anzeige von Literaturangaben ([CSL-API])
@@ -151,7 +174,6 @@ PPN steht in `/record/recordIdentifier[@source="DE-601"]`:
 \vfill
 
 *Bitte Nachfragen! <jakob.voss@gbv.de>*
-
 
 
 [MODS]: http://www.loc.gov/standards/mods/
