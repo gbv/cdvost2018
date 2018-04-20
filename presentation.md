@@ -175,6 +175,11 @@ PPN steht in `/record/recordIdentifier[@source="DE-601"]`:
 
 *Bitte Nachfragen! <jakob.voss@gbv.de>*
 
+---
+
+![](vzg-apis.jpg){width=100%}
+
+
 
 [MODS]: http://www.loc.gov/standards/mods/
 [DAIA]: http://purl.org/NET/DAIA
